@@ -1,0 +1,135 @@
+# WowCoach Rotation Guide Schema
+# This documents all fields used in rotation guide YAML files.
+# Fields marked (required) must be present in every guide.
+
+# ============================================================
+# METADATA (required)
+# ============================================================
+
+specId: 73                    # (required) WoW spec ID (integer)
+className: Warrior            # (required) Class name
+specName: Protection          # (required) Spec name
+role: Tank                    # (required) One of: DPS, Tank, Healer
+heroTalent: Mountain Thane    # (required for hero talent guides) Hero talent tree name
+patch: "12.0.1"               # (required) Game patch version
+guideVersion: 3               # (required) Increment when updating the guide
+
+# ============================================================
+# RESOURCE MANAGEMENT
+# ============================================================
+
+resourceManagement:
+  primaryResource: Rage                 # Primary resource name (Rage, Energy, Mana, etc.)
+  secondaryResource: None               # Secondary resource if any (Holy Power, Combo Points, etc.)
+  resourceNotes: |                      # Free-text explanation of resource generation and spending
+    Explain how the spec generates and spends resources.
+    Include any hero-talent-specific interactions.
+
+# ============================================================
+# MAINTENANCE BUFFS
+# Buffs/debuffs the player should maintain high uptime on.
+# The AI Coach uses these to analyze buff uptime from combat logs.
+# ============================================================
+
+maintenanceBuffs:
+- spellId: 0                  # WoW spell ID (0 if unknown — AI matches by name)
+  spellName: Shield Block     # (required) Spell name as it appears in-game
+  targetUptimePct: 90         # Target uptime percentage (0-100, or -1 for "track but don't judge")
+  importance: critical         # One of: critical, high, medium
+  coachingTip: |              # Advice the AI Coach gives about this buff
+    When and how to maintain this buff. Include any talent interactions.
+
+# ============================================================
+# TANKING GUIDE (Tank role only)
+# Survival-focused guidance that takes priority over the damage rotation.
+# ============================================================
+
+tankingGuide:
+  survivalPriority: |         # Numbered list of survival abilities in priority order
+    These abilities take absolute priority over the damage rotation.
+    1. First survival priority (e.g., maintain Shield Block, Ironfur, Demon Spikes)
+    2. Second survival priority (e.g., Ignore Pain, Death Strike, Purifying Brew)
+  defensiveCooldowns: |       # When and how to use each defensive cooldown
+    - Cooldown Name (duration): Description of when to use.
+    - Another Cooldown (duration): Description.
+  # Additional subsections vary by spec. Common ones:
+  stanceDancing: |            # (Warrior only) Stance swap guidance
+    When to use each stance.
+  rageManagement: |           # (Rage-based tanks) How to spend Rage
+    Rage spending priorities.
+  resourceManagement: |       # (DK, Paladin) Spec-specific resource guidance
+    Resource management details.
+  staggerManagement: |        # (Monk only) Stagger and Purifying Brew guidance
+    How to manage Stagger.
+  soulFragmentManagement: |   # (DH only) Soul Fragment generation and spending
+    Soul Fragment details.
+  holyPowerManagement: |      # (Paladin only) Holy Power generation and spending
+    Holy Power details.
+
+# ============================================================
+# ROTATION
+# Numbered priority lists. The AI Coach reads these top-to-bottom.
+# Mark optional abilities with (if talented).
+# ============================================================
+
+rotation:
+  singleTarget: |             # Single-target damage priority
+    1. Cast Ability One on cooldown.
+    2. Cast Ability Two on cooldown.
+    3. Cast Ability Three (if talented).
+  aoe: |                      # Multi-target / AoE damage priority
+    1. Cast AoE Ability One.
+    2. Cast AoE Ability Two.
+  opener: |                   # Pull / opener sequence
+    1. Pre-cast or pre-position.
+    2. First ability on pull.
+    3. Continue with priority.
+
+# ============================================================
+# COOLDOWNS
+# Major cooldowns with timing and usage guidance.
+# ============================================================
+
+cooldowns:
+- name: Avatar                # Cooldown name
+  cooldown: 1.5min            # Approximate cooldown duration
+  description: |              # When and how to use this cooldown
+    Description of the cooldown and usage tips.
+
+# ============================================================
+# CONCEPTS
+# Key mechanics, procs, and interactions the player should understand.
+# Keep each entry focused on one mechanic.
+# ============================================================
+
+concepts:
+- 'Mechanic Name: Explanation of how it works and why it matters.'
+- 'Another Mechanic: Details about interactions and optimal play.'
+
+# ============================================================
+# COMMON MISTAKES
+# What players frequently do wrong. The AI Coach references these
+# when analyzing combat logs.
+# ============================================================
+
+commonMistakes:
+- Doing something wrong that reduces DPS or survivability.
+- Another common error players make.
+
+# ============================================================
+# REMOVED MECHANICS
+# Abilities removed in the current patch. Prevents the AI Coach
+# from referencing outdated abilities.
+# ============================================================
+
+removedMechanics:
+- Ability Name (removed in 12.0)
+
+# ============================================================
+# PATCH CHANGES
+# Notable changes in recent patches affecting this spec.
+# ============================================================
+
+patchChanges:
+  12.0.1: 'Summary of changes in this patch.'
+  '12.0': 'Summary of changes in this patch.'
